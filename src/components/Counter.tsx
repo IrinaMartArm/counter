@@ -3,7 +3,14 @@ import { Button } from "./Button";
 import React from "react";
 import { InputForm } from "./Input";
 import {useDispatch, useSelector} from "react-redux";
-import {increaseCounterAC, resetAC,  setMaxCounterAC, setMinCounterAC} from "./Reducer";
+import {
+    changeMaxInputValueAC,
+    changeMinInputValueAC,
+    increaseCounterAC,
+    resetAC,
+    setMaxCounterAC,
+    setMinCounterAC
+} from "./Reducer";
 import {ReducerType} from "./Store";
 
 
@@ -11,6 +18,8 @@ type DataCountType = {
     min: number
     max: number
     count: number
+    maxInputValue: number
+    minInputValue: number
 }
 
 export const Counter: React.FC = () => {
@@ -58,6 +67,10 @@ export const Counter: React.FC = () => {
     const reset = () => {
         dispatch(resetAC())
     }
+ const set = () => {
+        dispatch(setMaxCounterAC())
+        dispatch(setMinCounterAC())
+    }
 
 
 // const onChangeInputHandler = (val: string, k: keyof DataCountType) => {
@@ -70,10 +83,10 @@ export const Counter: React.FC = () => {
 // }
 
     const maxHandler = (value: string) => {
-        dispatch(setMaxCounterAC(+value))
+        dispatch(changeMaxInputValueAC(+value))
     }
     const minHandler = (value: string) => {
-        dispatch(setMinCounterAC(+value))
+        dispatch(changeMinInputValueAC(+value))
     }
 
 
@@ -91,20 +104,20 @@ export const Counter: React.FC = () => {
                     {/*/>*/}
                     <InputForm
                         title={'max value '}
-                        value={dataCount.max}
+                        value={dataCount.maxInputValue}
                         disabled={dataCount.max <= dataCount.min || dataCount.max > 10}
                         callback={maxHandler}
                     />
                     <InputForm
                         title={'start value  '}
-                        value={dataCount.min}
+                        value={dataCount.minInputValue}
                         disabled={dataCount.min >= dataCount.max || dataCount.min < 0}
                         callback={minHandler}
 
                     />
                 </CounterBox>
                 <Box>
-                    <Button name="set" callback={reset} disabled={dataCount.max <= dataCount.min}/>
+                    <Button name="set" callback={set} disabled={dataCount.max <= dataCount.min}/>
                 </Box>
             </StyledCounter>
             <StyledCounter>
