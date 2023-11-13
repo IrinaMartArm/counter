@@ -2,6 +2,12 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+export type StateType =  {
+  min: number
+  max: number
+  count: number
+}
+
 function App() {
   return (
     <div className="App">

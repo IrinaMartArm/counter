@@ -1,5 +1,6 @@
 import {createStore} from "redux";
-import {Reducer} from "./components/Reducer.tsx";
+import {Reducer} from "./Reducer";
+
 
 
 export type ReducerType = ReturnType<typeof Reducer>

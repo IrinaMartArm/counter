@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Button } from "./Button";
 import React from "react";
-import { InputForm } from "./InputForm";
+import { InputForm } from "./Input";
 import {useDispatch, useSelector} from "react-redux";
-import {increaseCounterAC, resetAC,  setMaxCounterAC, setMinCounterAC} from "./Reducer.tsx";
-import {ReducerType} from "../Store.tsx";
+import {increaseCounterAC, resetAC,  setMaxCounterAC, setMinCounterAC} from "./Reducer";
+import {ReducerType} from "./Store";
 
 
 type DataCountType = {
