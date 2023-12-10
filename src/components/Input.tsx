@@ -4,7 +4,7 @@ import styled from "styled-components";
 type PropsType = {
     title: string
     value: number
-    disabled: boolean
+    error: boolean
     callback: (value: string) => any
 }
 
@@ -12,8 +12,8 @@ type PropsType = {
 export const InputForm = (props: PropsType) => {
 
     const disableStyle = {
-        backgroundColor: props.disabled ? '#ff9292' : '',
-        border:  props.disabled ? "2px solid #ff0000" : ''
+        backgroundColor: props.error ? '#ff9292' : '',
+        border:  props.error ? "2px solid #ff0000" : ''
     }
 
     const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +25,8 @@ export const InputForm = (props: PropsType) => {
             <label>{props.title}
                 <input type="number" value={props.value}
                        onChange={inputHandler}
-                       style={disableStyle}
-                    // style={{ border: `${ props.disabled === true ? "2px solid #ff0000" : ""}`}}
+                       // style={disableStyle}
+                       style={{ border: `${ props.error ? "2px solid #ff0000" : ""}`}}
                 />
             </label>
         </StyledForm>

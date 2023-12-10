@@ -6,64 +6,24 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     changeMaxInputValueAC,
     changeMinInputValueAC,
-    increaseCounterAC,
+    increaseCounterAC, InStateType,
     resetAC,
     setMaxCounterAC,
     setMinCounterAC
 } from "./Reducer";
-import {ReducerType} from "./Store";
+import {StateType} from "./Store";
 
-
-type DataCountType = {
-    min: number
-    max: number
-    count: number
-    maxInputValue: number
-    minInputValue: number
-}
 
 export const Counter: React.FC = () => {
 
-    const dataCount = useSelector<ReducerType, DataCountType>(state => state)
+    const dataCount = useSelector<StateType, InStateType>(state => state.counter)
 
 
     const dispatch = useDispatch()
 
-    // const [dataCount, setDataCount] = useState<DataCountType>({
-    //     min: 0,
-    //     max: 1,
-    //     count: 0,
-    // });
-
-
-
-    // useEffect(()=> {
-    //     let stringValue = localStorage.getItem('value')
-    //     if(stringValue){
-    //         let newValue = JSON.parse(stringValue)
-    //         setDataCount({...dataCount, count: newValue})
-    //     }
-    // }, [])
-    //
-    // useEffect(()=> {
-    //     localStorage.setItem('value', JSON.stringify(dataCount.count))
-    // }, [dataCount.count])
-
-
-    // const increase = () => {
-    //     if (dataCount.count < dataCount.max) {
-    //         setDataCount(
-    //             {...dataCount, count: dataCount.count + 1}
-    //         )
-    //     }
-    // }
     const increase = () => {
         dispatch(increaseCounterAC())
     }
-
-    // const reset = () => {
-    //     setDataCount({...dataCount, count: dataCount.min})
-    // }
     const reset = () => {
         dispatch(resetAC())
     }
@@ -71,16 +31,6 @@ export const Counter: React.FC = () => {
         dispatch(setMaxCounterAC())
         dispatch(setMinCounterAC())
     }
-
-
-// const onChangeInputHandler = (val: string, k: keyof DataCountType) => {
-//     setDataCount((dc) => {
-//         return {
-//             ...dc,
-//             [k]: +val
-//         }
-//     })
-// }
 
     const maxHandler = (value: string) => {
         dispatch(changeMaxInputValueAC(+value))
@@ -96,33 +46,27 @@ export const Counter: React.FC = () => {
         <>
             <StyledCounter>
                 <CounterBox >
-                    {/*<InputForm */}
-                    {/*        title={'max value '} */}
-                    {/*        value={dataCount.max} */}
-                    {/*        disabled={dataCount.max <= dataCount.min || dataCount.max > 10} */}
-                    {/*        callback={(val: string) => onChangeInputHandler(val, 'max')} */}
-                    {/*/>*/}
                     <InputForm
                         title={'max value '}
                         value={dataCount.maxInputValue}
-                        disabled={dataCount.max <= dataCount.min || dataCount.max > 10}
+                        error={dataCount.error}
                         callback={maxHandler}
                     />
                     <InputForm
                         title={'start value  '}
                         value={dataCount.minInputValue}
-                        disabled={dataCount.min >= dataCount.max || dataCount.min < 0}
+                        error={dataCount.error}
                         callback={minHandler}
 
                     />
                 </CounterBox>
                 <Box>
-                    <Button name="set" callback={set} disabled={dataCount.max <= dataCount.min}/>
+                    <Button name="set" callback={set} disabled={dataCount.error}/>
                 </Box>
             </StyledCounter>
             <StyledCounter>
                 <CounterBox>
-                    {dataCount.min >= dataCount.max
+                    {dataCount.error
                         ?   <h2  style={{color: "red"}}>Incorrect value!</h2>
                         :   <h1  style={{ color: `${ dataCount.count === dataCount.max ? "red" : ""}`}}>
                             {dataCount.count}
