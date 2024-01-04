@@ -9,6 +9,7 @@ type ActionType = ReturnType<typeof setMaxCounterAC>
                 | ReturnType<typeof setMinCounterAC>
                 | ReturnType<typeof changeMaxInputValueAC>
                 | ReturnType<typeof changeMinInputValueAC>
+                | ReturnType<typeof setErrorAC>
 
 export type InStateType = typeof initialState
 
@@ -25,24 +26,19 @@ let initialState =  {
 export const Reducer = (state: InStateType = initialState, action: ActionType): InStateType => {
     switch (action.type) {
         case 'INCREASE':
-            return state.count < state.max ? {...state, count: state.count + 1} : state
+            return {...state, count: state.count + 1}
         case 'RESET':
             return {...state, count: state.min}
         case 'CHANGE-MAX':
-            let condition = state.maxInputValue <= state.minInputValue || state.maxInputValue > 10
-            let copyState = {...state}
-            copyState.maxInputValue = action.payload.maxValue
-            condition ? copyState.error = true : copyState.error = false
-            return copyState
-                // {...state, error: true, maxInputValue: action.payload.maxValue} :
-                // {...state, maxInputValue: action.payload.maxValue, error: false}
+            return {...state, maxInputValue: action.payload.maxValue}
         case 'CHANGE-MIN':
-            return state.minInputValue >= state.maxInputValue || state.minInputValue < 0 ?
-                {...state, error: true,  minInputValue: action.payload.minValue } : {...state, minInputValue: action.payload.minValue, error: false}
+            return {...state, minInputValue: action.payload.minValue}
         case 'SET-MAX':
             return {...state, max: state.maxInputValue}
         case 'SET-MIN':
             return {...state, min: state.minInputValue}
+        case 'SET-ERROR':
+            return {...state, error: action.er}
         default:
             return state
     }
@@ -65,6 +61,9 @@ export const setMaxCounterAC = () => {
 }
 export const setMinCounterAC = () => {
     return {type: 'SET-MIN'} as const
+}
+export const setErrorAC = (er: boolean) => {
+    return {type: 'SET-ERROR', er} as const
 }
 
 
